@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube to Anki (Vocab)",
+  "version": "2.0",
+  "description": "Convert YouTube video transcripts to Anki decks.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_title": "Create Anki Deck"
+  },
+  "background": {
+    "service_worker": "src/background/index.js"
+  },
+  "options_ui": {
+    "page": "src/options/index.html",
+    "open_in_tab": false
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.youtube.com/watch*"
+      ],
+      "js": [
+        "src/content/index.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/content/inject.js"
+      ],
+      "matches": [
+        "*://www.youtube.com/*"
+      ]
+    }
+  ]
+}

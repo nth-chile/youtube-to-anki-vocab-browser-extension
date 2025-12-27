@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build output
+dist/
+
+# Environment variables (SENSITIVE - Never commit!)
+.env
+.env.local
+.env.*.local
+
+# API Keys and secrets (SENSITIVE - Never commit!)
+config/secrets.json
+*.key
+*.pem
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Browser extension artifacts
+*.crx
+*.pem
+*.zip
+
+# User data (Chrome storage/settings)
+storage.json
+user-preferences.json
+
+# Gemini/Artifacts directory (optional - if you want to keep task tracking)
+.gemini/
