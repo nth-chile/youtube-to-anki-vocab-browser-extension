@@ -1,5 +1,7 @@
 import { Utils } from '../utils/index.js';
 
+const DEV_LIMIT = null; // Limit for testing (null = unlimited)
+
 // DOM Scraping Implementation
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -47,6 +49,14 @@ async function scrapeDom(mode, sendResponse) {
 
         logToPopup(`Extracting vocab from ${combinedData.length} sentences...`);
         let finalDeck = Utils.extractVocab(combinedData, currentLang);
+
+        // APPLY DEV LIMIT
+        if (typeof DEV_LIMIT !== 'undefined' && DEV_LIMIT > 0) {
+            console.log(`YT2Anki: DEV_LIMIT applied. Truncating ${finalDeck.length} to ${DEV_LIMIT}`);
+            logToPopup(`DEV MODE: Limiting to ${DEV_LIMIT} cards...`);
+            finalDeck = finalDeck.slice(0, DEV_LIMIT);
+        }
+
         logToPopup(`Extracted ${finalDeck.length} cards. Translating...`);
 
         // Batch Translate

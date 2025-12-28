@@ -58,7 +58,11 @@ export const Utils = {
         ];
 
         sentences.forEach(sentence => {
-            const doc = nlp(sentence.text); // Note: Compromise is mainly English, but tokenization works ok
+            // Clean noise from text (e.g. [Música], [Music])
+            const cleanText = sentence.text.replace(/\[.*?\]\s?/gi, '').trim();
+            if (!cleanText) return;
+
+            const doc = nlp(cleanText); // Note: Compromise is mainly English, but tokenization works ok
 
             // Get terms
             const terms = doc.terms().out('array');
@@ -87,15 +91,15 @@ export const Utils = {
 
                 // Highlight word in context
                 const regex = new RegExp(`\\b${word}\\b`, 'gi');
-                const context = sentence.text.replace(regex, `<b>${word}</b>`);
+                const context = cleanText.replace(regex, `<b>${word}</b>`);
 
                 // Title Case for front
-                const front = word.charAt(0).toUpperCase() + word.slice(1);
+                const wordTitle = word.charAt(0).toUpperCase() + word.slice(1);
 
                 vocabDeck.push({
                     word: lowerWord, // Raw word for translation
-                    context: sentence.text, // Full sentence for context-aware translation
-                    front: `${front}\n\n${context}`,
+                    context: cleanText, // Full sentence for context-aware translation
+                    front: `<div class="word">${wordTitle}</div><br><div class="sentence">${context}</div>`,
                     back: `[English Translation]`,
                     start: sentence.start
                 });
@@ -300,7 +304,7 @@ export const Utils = {
     },
 
     generateCSV: (deck) => {
-        let csv = "Front,Back\n";
+        let csv = "";
         deck.forEach(card => {
             csv += `${Utils.escapeCsv(card.front)},${Utils.escapeCsv(card.back)}\n`;
         });
