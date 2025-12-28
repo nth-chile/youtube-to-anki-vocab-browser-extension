@@ -2,6 +2,8 @@
 
 A Chromium-based browser extension that extracts vocabulary words from YouTube video transcripts and generates Anki flashcards with context-aware translations.
 
+**Currently only translates Portuguese to English**
+
 ## Requirements
 
 - OpenAI or Gemini API Key (minimal cost for typical usage)
